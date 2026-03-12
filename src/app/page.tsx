@@ -1,0 +1,178 @@
+"use client";
+
+import { useState, useCallback } from "react";
+import Experience from "@/components/Experience";
+import Celebration from "@/components/Celebration";
+import NoteCard from "@/components/NoteCard";
+import FloatingElement from "@/components/FloatingElement";
+import LanternRelease from "@/components/LanternRelease";
+import Preloader from "@/components/Preloader";
+import Fireflies from "@/components/Fireflies";
+import { playBGM, playPop, vibrate } from "@/utils/audio";
+
+const notes: { message: string; align: "left" | "right" | "center"; graphic?: React.ReactNode }[] = [
+  { 
+    message: "Happy Birthday Beautiful! 🎉 I hope your day is as amazing and special as you are.", 
+    align: "center", 
+    graphic: <FloatingElement delay={0} yOffset={15}><span className="text-6xl drop-shadow-lg">🐱</span></FloatingElement> 
+  },
+  { 
+    message: "You always bring so much light and joy to everyone around you. Never stop being you.", 
+    align: "left", 
+    graphic: <FloatingElement delay={0.5} yOffset={-20}><span className="text-6xl drop-shadow-lg">✨</span></FloatingElement> 
+  },
+  { 
+    message: "Every moment with you is a beautiful memory. Here's to making a million more! 🌸", 
+    align: "right", 
+    graphic: <FloatingElement delay={0.3} yOffset={12}><span className="text-6xl drop-shadow-lg">🦋</span></FloatingElement> 
+  },
+  { 
+    message: "Your smile lights up the room. Your kindness inspires everyone. Your heart is pure gold. 💛", 
+    align: "left", 
+    graphic: <FloatingElement delay={0.8} yOffset={-15}><span className="text-6xl drop-shadow-lg">👑</span></FloatingElement> 
+  },
+  { 
+    message: "Wishing you a year filled with happiness, success, and endless cute moments.", 
+    align: "right", 
+    graphic: <FloatingElement delay={1} yOffset={15}><span className="text-6xl drop-shadow-lg">🐈</span></FloatingElement> 
+  },
+  { 
+    message: "May this new chapter be your most beautiful one yet. You deserve the entire world and more. 🌍", 
+    align: "center", 
+    graphic: <FloatingElement delay={0.6} yOffset={-18}><span className="text-6xl drop-shadow-lg">🌺</span></FloatingElement> 
+  },
+  { 
+    message: "Like stars that shine brightest in the dark — that's you. Always radiant, always inspiring. ⭐", 
+    align: "left", 
+    graphic: <FloatingElement delay={0.4} yOffset={10}><span className="text-6xl drop-shadow-lg">🌙</span></FloatingElement> 
+  },
+  { 
+    message: "Never forget how appreciated you are. Enjoy your special day to the absolute fullest! 🎂", 
+    align: "center", 
+    graphic: null 
+  }
+];
+
+export default function Home() {
+  const [loaded, setLoaded] = useState(false);
+  const [isOpened, setIsOpened] = useState(false);
+  const [showNotes, setShowNotes] = useState(false);
+  const [wished, setWished] = useState(false);
+  const [showFireflies, setShowFireflies] = useState(false);
+
+  const handleOpen = useCallback(() => {
+    if (isOpened) return;
+    setIsOpened(true);
+    playPop();
+    vibrate(200); // Haptic on box open
+    
+    setTimeout(() => {
+      playBGM();
+      setShowFireflies(true); // Start fireflies after box opens
+    }, 600);
+  }, [isOpened]);
+
+  const handleMakeWish = () => {
+    if (wished) return;
+    setWished(true);
+    playPop();
+    vibrate(150); // Haptic on wish
+  };
+
+  return (
+    <main className="relative w-full min-h-[100dvh] overflow-hidden flex flex-col items-center">
+      {/* Preloader */}
+      {!loaded && <Preloader onComplete={() => setLoaded(true)} />}
+      
+      {/* Lantern Release (appears after wish) */}
+      <LanternRelease active={wished} />
+      
+      {/* Ambient Fireflies (appear after box opens) */}
+      {showFireflies && <Fireflies />}
+      
+      {/* 3D Gift Box Scene */}
+      <div className={`fixed inset-0 z-0 pointer-events-auto transition-opacity duration-1000 ${showNotes ? 'opacity-30' : 'opacity-100'}`}>
+        <Experience isOpened={isOpened} onOpen={handleOpen} />
+      </div>
+      
+      {/* Celebration overlay */}
+      <Celebration isOpened={isOpened} onSequenceComplete={() => setShowNotes(true)} />
+      
+      {/* Tap prompt */}
+      {!isOpened && loaded && (
+        <div className="absolute inset-x-0 bottom-32 flex justify-center items-center z-10 pointer-events-none">
+          <p className="text-foreground font-serif text-2xl animate-pulse tracking-wide drop-shadow-md">
+            Tap to open a surprise 🎁
+          </p>
+        </div>
+      )}
+      
+      {/* Scrolling Notes Journey */}
+      {showNotes && (
+        <div className="relative z-30 flex flex-col items-center w-full mt-[100vh]">
+          <div className="h-[50vh] flex items-center justify-center animate-fade-in w-full transition-opacity duration-1000">
+             <p className="text-foreground/70 font-sans text-lg italic tracking-widest text-center animate-bounce">
+               Scroll gently downwards...
+             </p>
+          </div>
+
+          <div className="w-full max-w-6xl mx-auto pb-[10vh]">
+            {notes.map((note, index) => (
+              <div key={index} className="relative">
+                <NoteCard 
+                  message={note.message} 
+                  index={index} 
+                  align={note.align} 
+                />
+                {note.graphic && (
+                  <div className={`absolute top-1/2 -translate-y-1/2 hidden md:block ${note.align === 'left' ? 'right-[10%] md:right-[20%]' : note.align === 'right' ? 'left-[10%] md:left-[20%]' : 'right-[10%]'}`}>
+                    {note.graphic}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          
+          {/* Make A Wish Finale */}
+          <div className="w-full min-h-[70vh] flex flex-col items-center justify-center pb-16">
+             <div className="relative flex flex-col items-center">
+               <FloatingElement yOffset={10}>
+                 <span 
+                   className="text-8xl md:text-9xl drop-shadow-2xl mb-8 block transition-transform hover:scale-110 cursor-pointer active:scale-95" 
+                   role="img" 
+                   aria-label="Birthday Cake" 
+                   onClick={handleMakeWish}
+                 >
+                   {wished ? "🎂" : "🕯️"}
+                 </span>
+               </FloatingElement>
+               <h2 className={`font-serif text-4xl md:text-5xl text-shimmer font-bold transition-all duration-1000 ${wished ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                 Happy Birthday!
+               </h2>
+               <p className={`font-sans text-lg text-foreground/70 mt-4 text-center px-4 transition-all duration-1000 delay-500 ${wished ? 'opacity-100' : 'opacity-0'}`}>
+                 May all your wishes come true. Have a magical day! ✨
+               </p>
+               {!wished && (
+                 <p className="font-serif text-xl text-foreground/60 italic mt-8 animate-pulse text-center">
+                   Tap the candle to make a wish...
+                 </p>
+               )}
+             </div>
+          </div>
+          
+          {/* Personalized Sign-Off Footer */}
+          <div className={`w-full py-16 flex flex-col items-center transition-all duration-[2000ms] ${wished ? 'opacity-100' : 'opacity-0'}`}>
+            <div className="w-16 h-[1px] bg-foreground/20 mb-8" />
+            <p className="font-serif text-2xl md:text-3xl text-foreground/60 italic text-center px-8 leading-relaxed">
+              Made with all my love,<br />just for you
+            </p>
+            <span className="text-4xl mt-4 animate-heartbeat">💌</span>
+            <p className="mt-8 text-sm text-foreground/30 font-sans tracking-widest uppercase">
+              Happy Birthday Beautiful
+            </p>
+          </div>
+        </div>
+      )}
+    </main>
+  );
+}
