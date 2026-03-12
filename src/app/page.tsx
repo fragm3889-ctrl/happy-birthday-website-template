@@ -12,7 +12,7 @@ import { playBGM, playPop, vibrate } from "@/utils/audio";
 
 const notes: { message: string; align: "left" | "right" | "center"; graphic?: React.ReactNode }[] = [
   { 
-    message: "Happy Birthday Beautiful! 🎉 I hope your day is as amazing and special as you are.", 
+    message: "Happy Birthday Manal! 🎉 I hope your day is as amazing and special as you are.", 
     align: "center", 
     graphic: <FloatingElement delay={0} yOffset={15}><span className="text-6xl drop-shadow-lg">🐱</span></FloatingElement> 
   },
@@ -168,7 +168,7 @@ export default function Home() {
             </p>
             <span className="text-4xl mt-4 animate-heartbeat">💌</span>
             <p className="mt-8 text-sm text-foreground/30 font-sans tracking-widest uppercase">
-              Happy Birthday Beautiful
+              Happy Birthday Manal
             </p>
           </div>
         </div>

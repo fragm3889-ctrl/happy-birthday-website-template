@@ -14,11 +14,13 @@ export default function Celebration({ isOpened, onSequenceComplete }: Celebratio
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
   const elementsRef = useRef<HTMLDivElement>(null);
+  const hasRun = useRef(false);
   
-  const splitText = "Happy Birthday Beautiful!".split("");
+  const splitText = "Happy Birthday Manal!".split("");
 
   useEffect(() => {
-    if (isOpened) {
+    if (isOpened && !hasRun.current) {
+      hasRun.current = true;
       // 1. Fire Confetti
       const duration = 3 * 1000;
       const end = Date.now() + duration;
