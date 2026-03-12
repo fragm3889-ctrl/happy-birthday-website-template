@@ -18,9 +18,28 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Happy Birthday | A Magical Interactive Web Experience",
-  description: "An open-source, highly interactive, 3D web experience built with Next.js, Three.js, and GSAP. A perfect digital birthday gift template.",
+  title: "Open for a Surprise",
+  description: "Click to see your birthday surprise!",
   keywords: ["Happy Birthday", "Birthday Template", "Next.js", "Three.js", "React Three Fiber", "GSAP", "Interactive Web", "Open Source"],
+  openGraph: {
+    title: "Open for a Surprise",
+    description: "Click to see your birthday surprise!",
+    images: [
+      {
+        url: "/thumbnail.png",
+        width: 1200,
+        height: 630,
+        alt: "Birthday Surprise",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Open for a Surprise",
+    description: "Click to see your birthday surprise!",
+    images: ["/thumbnail.png"],
+  },
 };
 
 export const viewport: Viewport = {
