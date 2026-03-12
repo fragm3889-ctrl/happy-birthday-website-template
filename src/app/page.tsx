@@ -9,35 +9,36 @@ import LanternRelease from "@/components/LanternRelease";
 import Preloader from "@/components/Preloader";
 import Fireflies from "@/components/Fireflies";
 import { playBGM, playPop, vibrate } from "@/utils/audio";
+import confetti from "canvas-confetti";
 
 const notes: { message: string; align: "left" | "right" | "center"; graphic?: React.ReactNode }[] = [
   { 
-    message: "Happy Birthday Manal! 🎉 I hope your day is as amazing and special as you are.", 
+    message: "Happy Birthday Manal! 🎉 I really hope your day is as amazing and special as you are.", 
     align: "center", 
     graphic: <FloatingElement delay={0} yOffset={15}><span className="text-6xl drop-shadow-lg">🐱</span></FloatingElement> 
   },
   { 
-    message: "You always bring so much light and joy to everyone around you. Never stop being you.", 
+    message: "You always manage to bring so much light and joy to everyone around you. Please never stop being you.", 
     align: "left", 
     graphic: <FloatingElement delay={0.5} yOffset={-20}><span className="text-6xl drop-shadow-lg">✨</span></FloatingElement> 
   },
   { 
-    message: "Every moment with you is a beautiful memory. Here's to making a million more! 🌸", 
+    message: "Every moment with you is such a beautiful memory. Here's to making a million more together! 🌸", 
     align: "right", 
     graphic: <FloatingElement delay={0.3} yOffset={12}><span className="text-6xl drop-shadow-lg">🦋</span></FloatingElement> 
   },
   { 
-    message: "Your smile lights up the room. Your kindness inspires everyone. Your heart is pure gold. 💛", 
+    message: "Your smile seriously lights up the room. Your kindness inspires everyone. Your heart is pure gold. 💛", 
     align: "left", 
     graphic: <FloatingElement delay={0.8} yOffset={-15}><span className="text-6xl drop-shadow-lg">👑</span></FloatingElement> 
   },
   { 
-    message: "Wishing you a year filled with happiness, success, and endless cute moments.", 
+    message: "Wishing you a year filled with nothing but happiness, success, and endless cute moments.", 
     align: "right", 
     graphic: <FloatingElement delay={1} yOffset={15}><span className="text-6xl drop-shadow-lg">🐈</span></FloatingElement> 
   },
   { 
-    message: "May this new chapter be your most beautiful one yet. You deserve the entire world and more. 🌍", 
+    message: "May this new chapter be your most beautiful one yet. You honestly deserve the entire world and more. 🌍", 
     align: "center", 
     graphic: <FloatingElement delay={0.6} yOffset={-18}><span className="text-6xl drop-shadow-lg">🌺</span></FloatingElement> 
   },
@@ -77,6 +78,33 @@ export default function Home() {
     setWished(true);
     playPop();
     vibrate(150); // Haptic on wish
+    
+    // Huge Confetti blast for the wish
+    const duration = 5 * 1000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
+
+    const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
+
+    const interval: any = setInterval(function() {
+      const timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      const particleCount = 50 * (timeLeft / duration);
+      confetti({
+        ...defaults, particleCount,
+        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+        colors: ["#ffb6c1", "#ffd700", "#ff69b4"]
+      });
+      confetti({
+        ...defaults, particleCount,
+        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+        colors: ["#ffb6c1", "#ffd700", "#ff69b4"]
+      });
+    }, 250);
   };
 
   return (
@@ -109,12 +137,7 @@ export default function Home() {
       
       {/* Scrolling Notes Journey */}
       {showNotes && (
-        <div className="relative z-30 flex flex-col items-center w-full mt-[100vh]">
-          <div className="h-[50vh] flex items-center justify-center animate-fade-in w-full transition-opacity duration-1000">
-             <p className="text-foreground/70 font-sans text-lg italic tracking-widest text-center animate-bounce">
-               Scroll gently downwards...
-             </p>
-          </div>
+        <div className="relative z-30 flex flex-col items-center w-full mt-[15vh] md:mt-[30vh]">
 
           <div className="w-full max-w-6xl mx-auto pb-[10vh]">
             {notes.map((note, index) => (

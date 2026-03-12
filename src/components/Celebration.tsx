@@ -82,7 +82,7 @@ export default function Celebration({ isOpened, onSequenceComplete }: Celebratio
   return (
     <div 
       ref={containerRef} 
-      className="absolute inset-0 z-20 flex flex-col justify-center items-center pointer-events-none opacity-0 invisible"
+      className="absolute top-0 left-0 w-full h-[100dvh] z-[40] flex flex-col justify-center items-center pointer-events-none opacity-0 invisible"
     >
       <h1 
         ref={textRef} 

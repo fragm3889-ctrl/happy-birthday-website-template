@@ -51,8 +51,27 @@ export default function SparkleTrail() {
       }
     };
 
+    const onClick = (e: MouseEvent | TouchEvent) => {
+      const clientX = 'touches' in e ? e.touches[0].clientX : (e as MouseEvent).clientX;
+      const clientY = 'touches' in e ? e.touches[0].clientY : (e as MouseEvent).clientY;
+      
+      for (let i = 0; i < 20; i++) {
+        particles.push({
+          x: clientX,
+          y: clientY,
+          size: Math.random() * 4 + 1,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: (Math.random() - 0.5) * 8, 
+          vy: (Math.random() - 0.5) * 8, 
+          life: 1.5 
+        });
+      }
+    };
+
     window.addEventListener("pointermove", onMove);
     window.addEventListener("touchmove", onMove, { passive: true });
+    window.addEventListener("pointerdown", onClick);
+    window.addEventListener("touchstart", onClick, { passive: true });
 
     let animationId: number;
     const render = () => {
@@ -94,6 +113,8 @@ export default function SparkleTrail() {
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("touchmove", onMove);
+      window.removeEventListener("pointerdown", onClick);
+      window.removeEventListener("touchstart", onClick);
       cancelAnimationFrame(animationId);
     };
   }, []);
