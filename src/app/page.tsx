@@ -13,7 +13,7 @@ import confetti from "canvas-confetti";
 
 const notes: { message: string; align: "left" | "right" | "center"; graphic?: React.ReactNode }[] = [
   { 
-    message: "Happy Birthday Manal! 🎉 I really hope your day is as amazing and special as you are.", 
+    message: "Happy Birthday Rosey cute! 🎉 I really hope your day is as amazing and special as you are.", 
     align: "center", 
     graphic: <FloatingElement delay={0} yOffset={15}><span className="text-6xl drop-shadow-lg">🐱</span></FloatingElement> 
   },
@@ -191,7 +191,7 @@ export default function Home() {
             </p>
             <span className="text-4xl mt-4 animate-heartbeat">💌</span>
             <p className="mt-8 text-sm text-foreground/30 font-sans tracking-widest uppercase">
-              Happy Birthday Manal
+              Happy Birthday Rosty 
             </p>
           </div>
         </div>
